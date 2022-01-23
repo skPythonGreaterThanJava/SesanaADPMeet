@@ -1,0 +1,10 @@
+[
+  {
+    "name": "group_one",
+    "members": ["Pino", "Jimmy"]
+  },
+  {
+    "name": "group_two",
+    "members": ["Asdrubale"]
+  }
+]

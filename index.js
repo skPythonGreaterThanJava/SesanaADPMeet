@@ -12,15 +12,15 @@ apiServer.listen(port, host, ()=>{
 });
 
 apiServer.get('/', (request, response)=>{
-    response.sendFile('index.html', {root: __dirname });
+    response.json({"status": true});
 });
 
 apiServer.get('/register', (request, response)=>{
-    response.sendFile('registration.html', {root: __dirname });
+    response.json({"status": true});
 });
 
 apiServer.get('/login', (request, response)=>{
-    response.sendFile('login.html', {root: __dirname });
+    response.json({"status": true});
 });
 
 apiServer.post('/register', (request, response)=>{
@@ -30,9 +30,42 @@ apiServer.post('/register', (request, response)=>{
             var users = JSON.parse(data);
             users.push({"username": request.body.username, "password": request.body.password, "isPM": false});
             fs.writeFile("users.json", JSON.stringify(users), (err)=>{if(err)console.log(err);});
-            response.send("<h1>Registration successful. You may now log in</h1><br><a href='http://localhost:3000'>Main page</a>")
+            response.json({"registered": true});
         }
     })
 });
 
-apiServer.post('/login')
+apiServer.post('/login', (request, response)=>{
+    fs.readFile("users.json", (err, data)=>{
+        if(err) console.log(err);
+        else {
+            var users = JSON.parse(data);
+            var found = false;
+            users.forEach(element => {
+                if (element.username == request.body.username) {
+                    if(element.password == request.body.password) {
+                        found = true;
+                    }
+                }
+            });
+            response.json({"found": found});
+        }
+    })
+});
+
+apiServer.get('/dashboard', (request, reponse)=>{
+   if(request.query.islogged === true) {
+        response.json({"status": true});
+   } else {
+       response.json({"status": false})
+   }
+});
+
+apiServer.get('/pm_dashboard', (request, response)=>{
+    if(request.query.islogged === true) {
+        response.json({"status": true});
+    } else {
+        response.json({"status": false})
+    }
+});
+
