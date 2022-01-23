@@ -53,11 +53,11 @@ apiServer.post('/login', (request, response)=>{
     })
 });
 
-apiServer.get('/dashboard', (request, reponse)=>{
+apiServer.get('/dashboard', (request, response)=>{
    if(request.query.islogged === true) {
         response.json({"status": true});
    } else {
-       response.json({"status": false})
+        response.json({"status": false});
    }
 });
 
@@ -69,3 +69,35 @@ apiServer.get('/pm_dashboard', (request, response)=>{
     }
 });
 
+apiServer.post('/dashboard', (request, response)=>{
+    fs.readFile("groups.json", (err, data)=> {
+        if (err) console.log(err);
+        else {
+            var success = false;
+            var groups = JSON.parse(data);
+            groups.forEach(element => {
+                if (element.name == request.body.name) {
+                    element.members.push(request.body.username);
+                    success = true;
+                }
+            });
+            response.json({"success": success});
+        }
+    })
+});
+
+apiServer.delete('/dashboard', (request, response)=>{
+    fs.readFile("users.json", (err, data)=>{
+        if(err) console.log(err);
+        else {
+            var users = JSON.parse(data);
+            var success = false;
+            users.forEach(element => {
+                if (element.username == request.body.username) {
+                    //element.get
+                }
+            });
+            response.json({"found": found});
+        }
+    })
+})

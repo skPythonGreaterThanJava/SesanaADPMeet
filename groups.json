@@ -1,10 +1,12 @@
 [
   {
     "name": "group_one",
-    "members": ["Pino", "Jimmy"]
+    "members": ["Pino", "Jimmy"],
+    "meets": ["30/02", "04/02"]
   },
   {
     "name": "group_two",
-    "members": ["Asdrubale"]
+    "members": ["Asdrubale"],
+    "meets": ["30/02", "04/02"]
   }
 ]
